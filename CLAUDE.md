@@ -1,0 +1,39 @@
+# ECOES JV website
+
+Static site (plain HTML + CSS + a little JS, no build step) for ECOES JV, built page by page from the client's PDFs in `source/`. Published by GitHub Pages from the branch `claude/website-build-files-m52uk7` (root): https://amg7899.github.io/SUM/
+
+## Working with the client
+- The client writes in Bulgarian (sometimes English); answer in the language of their message. Site content is English only for now; Bulgarian may come later.
+- Use the client's text verbatim. Do not add copy, taglines or sections. Fix only obvious typos, and report every fix. When unsure, ask.
+- After every change: commit, push to the branch above, and send the live link plus screenshots.
+- Photos for the HISTORY section of About us come from https://bulfire.ecoes.eu/about-us/. That host is not reachable from the cloud sandbox, so ask the client to upload them.
+
+## Skills
+Use both for all UI work:
+- `.claude/skills/frontend-design` (Anthropic, Apache-2.0): design approach, plan → review against generic defaults → build → screenshot critique.
+- `.claude/skills/ui-ux-pro-max` (MIT): UX rules and searchable design data. Run from the repo root, e.g.
+  `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "focus visible keyboard" --domain ux`
+  (the `${CLAUDE_PLUGIN_ROOT}` paths in its SKILL.md don't apply to this project install).
+
+## Design system
+Subject: an engineering company converting diesel trucks, buses and agricultural/construction machinery to electric, plus a mobile-charging franchise. Audience: fleet owners, municipalities, bodybuilders, farmers, investors.
+
+- Palette: signal red `#e30613` (logo red; only for the € device, current-page marks and hover/focus), chassis graphite `#22282e` (text, frames, footer), steel `#5b6670` (secondary text), aluminium `#e9edf0` (page ground), white `#ffffff` (header, panels).
+- Type: Science Gothic (display: masthead, panel titles; Bank Gothic lineage, reads like truck/machinery badging) + IBM Plex Sans (text, nav, labels). Both cover Cyrillic for a future Bulgarian version.
+- Layout: left-aligned. White header with a 2px graphite rule. Masthead: full company name small, then the slogan "€CONOMY & €COLOGY" on one line spanning the content width, with the € glyphs in red (the one bold element). Home sections are one framed 2×2 grid of panels with shared 2px graphite rules, echoing the bordered boxes in `source/Home.pdf`. No floating cards, shadows or gradients.
+- Motion: only in response to the user (nav underline, panel caption turns red on hover/focus). Respect reduced motion.
+- Quality floor: contrast ≥ 4.5:1, visible focus, 44px targets, WebP + JPEG with width/height, no horizontal scroll at 320–1920px. Check screenshots at 375 / 768 / 1024 / 1440.
+
+## Structure
+- `index.html`: Home. Each section page will live in its own folder with an `index.html`, matching the original ecoes.eu URLs: `about-us/`, `electric-conversion/`, `franchise/`, `electric-conversions-bus-truck/`, `electric-agro-truck-construction/`, `contact-us/`.
+- `assets/css/style.css`, `assets/js/main.js`, `assets/img/`. The logo is redrawn as `assets/img/logo.svg`.
+- Home collages in `assets/img/home/` are rebuilt from the images embedded in `source/Home.pdf` at their original positions (PyMuPDF + Pillow). The labels over them are HTML, positioned as in the PDF.
+
+## Content issues to raise when building each page
+- Home: "€COCLOGY" in the title was fixed to "€COLOGY" (reported).
+- About us: "Turkish tradе company" contains a Cyrillic "е" (obvious, fix). The Bulgarian note asks for the HISTORY section with the photos from bulfire.ecoes.eu/about-us/, *without* the three paragraphs that follow the note.
+- Contact us: London phone and address and Istanbul phone are still "XXX"; the client will send them later.
+- ECOES Electric Conversion: headings are numbered 2. and 3. but there is no 1.; "Operational technical benefits" has no 3.3 like 3.1/3.2; "*whether*" / "*when*" are asterisks from copy-paste (render as italics).
+- Bus & trucks: missing space in "•The emergency generator module".
+- Agro & construction: stray "-" near the top; EUIPO reference "015051941 0001" probably should be "015051941-0001" (ask).
+- FRANCHISE: the opening sentence about "Welcome to the future…" is duplicated (obvious, fix); "to to-e-cars" → "to e-cars" (obvious, fix); "Flexible Configuration Tailored to Your Region:" is a heading glued to a paragraph; ask about: "Guaranteed Margins" wording, 2.5x–3x vs 250%–400%, payback "less than 12 months" vs "12 to 14 months", "about 70 vehicles" vs 1600 kWh ÷ 30–40 kWh ≈ 40–53, "$/€0.04/kW" (per kWh?), and "your complete Franchise Investment" (missing a word?).
