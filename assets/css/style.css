@@ -532,6 +532,13 @@ a, button { touch-action: manipulation; }
   text-underline-offset: 4px;
 }
 .partner-link:hover > span { color: var(--signal); }
+.partner-link > span { overflow-wrap: anywhere; }
+.partner-link--stack {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 24px;
+}
 
 strong { font-weight: 600; }
 
