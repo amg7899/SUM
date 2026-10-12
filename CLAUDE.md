@@ -30,6 +30,11 @@ Subject: an engineering company converting diesel trucks, buses and agricultural
 - Photos are being replaced by the client; image frames take any aspect ratio (the tile media flexes, figures are max 960px wide).
 - Quality floor: contrast ≥ 4.5:1, visible 2px volt focus ring, 44px targets, WebP + JPEG with width/height, no horizontal scroll at 320–1920px, reduced motion respected.
 
+## Contact form, calls to action, footer
+- Contact form on `contact-us/` (`#contact-form`), handled by `assets/js/contact.js`: required name, e-mail, message and consent, errors shown next to each field, subject preselected from `?topic=` (conversion, bus-trucks, agro, franchise, other). Sent through FormSubmit (no account): AJAX to `https://formsubmit.co/ajax/sales@ecoes.eu` with `_cc=bulfire@ecoes.eu`, `_subject`, `_template=table`, honeypot `_honey`; without JS it posts normally and comes back with `?sent=1`. FormSubmit needs a one-time activation: the first submission sends an "Activate Form" e-mail to sales@ecoes.eu. After activation FormSubmit offers a random alias to replace the address in the form action (hides it from scrapers) — swap it in when the client sends it.
+- Every section page has a "Get a quote …" button under the title and a large link at the end (`.cta`), both to `contact-us/?topic=…#contact-form`; Home has the large link under the tiles. Our Bulgarian wording for them (client's example: "Вземете оферта за електрическа конверсия") sits in `.l10n-bg` spans, like the nav names.
+- Footer on every page: offices (London, Sofia head office, Istanbul) + e-mails, fax and a "Contact form" button, then logo + links + "© 2026 ECOES JV". London phone/address and Istanbul phone are left out of the footer until the client sends them (they stay as red "XXX" on the Contact page).
+
 ## Structure
 - `index.html`: Home. Each section page will live in its own folder with an `index.html`, matching the original ecoes.eu URLs: `about-us/`, `electric-conversion/`, `franchise/`, `electric-conversions-bus-truck/`, `electric-agro-truck-construction/`, `contact-us/`.
 - `assets/css/style.css`, `assets/js/main.js` (nav fit + menu), `assets/img/`. The logo is redrawn as `assets/img/logo.svg` (light) and `assets/img/logo-dark.svg` (used on the dark site; brighter globe and a dark halo around the lettering; 62px tall in the header, 58px in the footer).
