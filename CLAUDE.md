@@ -20,6 +20,7 @@ Subject: an engineering company converting diesel trucks, buses and agricultural
 
 - Palette: signal red `#e30613` (logo red; only for the € device, current-page marks and hover/focus), chassis graphite `#22282e` (text, frames, footer), steel `#5b6670` (secondary text), aluminium `#e9edf0` (page ground), white `#ffffff` (header, panels).
 - Type: Science Gothic (display: masthead, panel titles; Bank Gothic lineage, reads like truck/machinery badging) + IBM Plex Sans (text, nav, labels). Both cover Cyrillic for a future Bulgarian version.
+- About us: the JV plate is wired to the three company plates like a schematic (trunk, bus and drops in 2px graphite; on phones a rail down the left with ticks). Flags are SVGs in `assets/img/flags/` and mark each company's paragraph. The CEO photo is small (262×343), so it is never upscaled on desktop.
 - Layout: left-aligned. White header with a 2px graphite rule. Masthead: full company name small, then the slogan "€CONOMY & €COLOGY" on one line spanning the content width, with the € glyphs in red (the one bold element). Home sections are one framed 2×2 grid of panels with shared 2px graphite rules, echoing the bordered boxes in `source/Home.pdf`. No floating cards, shadows or gradients.
 - Motion: only in response to the user (nav underline, panel caption turns red on hover/focus). Respect reduced motion.
 - Quality floor: contrast ≥ 4.5:1, visible focus, 44px targets, WebP + JPEG with width/height, no horizontal scroll at 320–1920px. Check screenshots at 375 / 768 / 1024 / 1440.
@@ -31,7 +32,7 @@ Subject: an engineering company converting diesel trucks, buses and agricultural
 
 ## Content issues to raise when building each page
 - Home: "€COCLOGY" in the title was fixed to "€COLOGY" (reported).
-- About us: "Turkish tradе company" contains a Cyrillic "е" (obvious, fix). The Bulgarian note asks for the HISTORY section with the photos from bulfire.ecoes.eu/about-us/, *without* the three paragraphs that follow the note.
+- About us (built): fixed the Cyrillic "е" in "Turkish trade company" (reported). Still open: the HISTORY section (photos from bulfire.ecoes.eu/about-us/, *without* the three struck-through paragraphs after the note) and where it goes; add the "* * *" divider together with it. Asked whether "Electric power" should be lowercase.
 - Contact us: London phone and address and Istanbul phone are still "XXX"; the client will send them later.
 - ECOES Electric Conversion: headings are numbered 2. and 3. but there is no 1.; "Operational technical benefits" has no 3.3 like 3.1/3.2; "*whether*" / "*when*" are asterisks from copy-paste (render as italics).
 - Bus & trucks: missing space in "•The emergency generator module".

@@ -309,6 +309,230 @@ a, button { touch-action: manipulation; }
   color: var(--plate);
 }
 
+/* ---------- Inner pages ---------- */
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.page-head {
+  padding: clamp(32px, 5.5vw, 72px) 0 clamp(24px, 3.5vw, 44px);
+}
+.page-head h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 60px);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.page-body {
+  padding-bottom: clamp(48px, 7vw, 104px);
+  font-size: 17px;
+  line-height: 1.65;
+}
+/* zero-specificity defaults, so component rules below always win */
+.page-body :where(section + section) { margin-top: clamp(48px, 6vw, 88px); }
+.page-body :where(h2) {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.page-body :where(p) { margin: 0 0 1em; max-width: 68ch; }
+.page-body :where(p:last-child) { margin-bottom: 0; }
+
+.flag {
+  display: block;
+  width: auto;
+  height: 30px;
+  box-shadow: 0 0 0 1px rgba(34, 40, 46, .2);
+}
+
+/* About us: the joint venture and its three companies, wired like a schematic */
+.org-jv {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px clamp(20px, 3vw, 40px);
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--plate);
+  border: var(--frame) solid var(--chassis);
+}
+.org-jv img { width: clamp(130px, 15vw, 190px); height: auto; }
+.org-jv h2 { margin-bottom: 8px; }
+
+.org-members {
+  --drop: 28px;
+  --gap: clamp(16px, 2vw, 24px);
+  --tick-y: 34px;
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: calc(var(--drop) * 2) 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+.org-members::before,
+.org-members::after,
+.org-member::before,
+.org-member::after {
+  content: "";
+  position: absolute;
+  background: var(--chassis);
+}
+.org-members::before { /* trunk from the JV plate */
+  top: 0;
+  left: calc(50% - var(--frame) / 2);
+  width: var(--frame);
+  height: calc(var(--drop) + var(--frame));
+}
+.org-members::after { /* bus across the three companies */
+  top: var(--drop);
+  left: calc((100% - 2 * var(--gap)) / 6);
+  right: calc((100% - 2 * var(--gap)) / 6);
+  height: var(--frame);
+}
+.org-member {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px clamp(16px, 2vw, 24px) 24px;
+  background: var(--plate);
+  border: var(--frame) solid var(--chassis);
+}
+.org-member::before { /* drop into each company */
+  top: calc(-1 * var(--drop));
+  left: calc(50% - var(--frame) / 2);
+  width: var(--frame);
+  height: var(--drop);
+}
+.org-member::after { display: none; }
+.org-member .flag { height: 48px; align-self: flex-start; }
+.org-member h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.org-member p {
+  margin: 4px 0 0;
+  font-size: 16px;
+  color: var(--steel);
+}
+
+@media (max-width: 767px) {
+  .org-jv { grid-template-columns: minmax(0, 1fr); }
+  .org-members {
+    --rail: 14px;
+    --reach: 26px;
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--drop) 0 0 calc(var(--rail) + var(--reach) - var(--frame));
+  }
+  .org-members::before,
+  .org-members::after { display: none; }
+  .org-member {
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 16px;
+  }
+  .org-member .flag { height: 30px; flex-shrink: 0; }
+  .org-member::before { /* tick from the rail */
+    top: var(--tick-y);
+    left: calc(-1 * var(--reach));
+    width: var(--reach);
+    height: var(--frame);
+  }
+  .org-member::after { /* rail segment down the left */
+    display: block;
+    top: calc(-1 * var(--gap) - var(--frame));
+    bottom: calc(-1 * var(--frame));
+    left: calc(-1 * var(--reach));
+    width: var(--frame);
+  }
+  .org-member:first-child::after { top: calc(-1 * var(--drop) - var(--frame)); }
+  .org-member:last-child::after {
+    bottom: auto;
+    height: calc(var(--gap) + var(--frame) + var(--tick-y) + var(--frame));
+  }
+}
+
+.ceo-lead {
+  margin-bottom: 20px;
+  font-size: clamp(18px, 1.9vw, 21px);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.bio {
+  display: grid;
+  grid-template-columns: 262px minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(16px, 2.5vw, 32px);
+  max-width: 1000px;
+}
+/* the photo keeps its own size; no stretching a small source */
+.bio-photo { border: var(--frame) solid var(--chassis); }
+.bio-photo img { width: 100%; height: auto; }
+.bio-text {
+  padding: clamp(20px, 3vw, 36px);
+  background: var(--plate);
+  border: var(--frame) solid var(--chassis);
+}
+.bio-text ul { margin: 0 0 1em; padding-left: 1.25em; }
+.bio-text li + li { margin-top: .25em; }
+@media (max-width: 767px) {
+  .bio { grid-template-columns: minmax(0, 1fr); }
+  .bio-photo { width: 266px; max-width: 100%; }
+}
+
+.roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 860px;
+}
+.role {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(34, 40, 46, .22);
+}
+.role:last-child { border-bottom: 1px solid rgba(34, 40, 46, .22); }
+.role .flag { height: 24px; margin-top: 4px; }
+
+.partner-link {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin: 8px 0 28px;
+  color: var(--chassis);
+  font-weight: 600;
+  text-decoration: none;
+}
+.partner-link img { width: clamp(200px, 24vw, 280px); height: auto; }
+.partner-link > span {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.partner-link:hover > span { color: var(--signal); }
+
 /* ---------- Footer ---------- */
 
 .site-footer {
