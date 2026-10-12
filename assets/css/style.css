@@ -663,6 +663,35 @@ strong { font-weight: 600; }
   border: var(--frame) solid var(--chassis);
 }
 
+.page-head .h1-long {
+  font-size: clamp(28px, 4.2vw, 50px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+/* product pages: the collage stays in view beside the text on wide screens */
+.product {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(32px, 4vw, 48px);
+}
+@media (min-width: 1024px) {
+  .product {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .product > .collage {
+    position: sticky;
+    top: calc(var(--header-h) + 28px);
+  }
+}
+.flow { max-width: 70ch; }
+.flow-block + .flow-block {
+  margin-top: clamp(28px, 3.5vw, 40px);
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: var(--frame) solid var(--chassis);
+}
+
 /* closing statement: the one loud element of a document page */
 .statement {
   max-width: none;
