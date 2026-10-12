@@ -198,25 +198,33 @@ em { font-style: oblique 10deg; }
 html[lang|="bg"] .l10n-src { display: none; }
 html[lang|="bg"] .l10n-bg { display: inline; }
 
-/* the menu button: always there, left of the logo, opens every section full-screen */
-.nav-toggle {
+/* small chamfered frames in the header: the menu button (left) and the language switch (right) */
+.nav-toggle,
+.lang-switch {
   --cut: 8px;
   position: relative;
   z-index: 2;
-  display: inline-flex;
   flex-shrink: 0;
-  width: 46px;
-  height: 46px;
-  padding: 0;
-  align-items: center;
-  justify-content: center;
-  color: var(--ion);
   border: 1px solid var(--trace-strong);
   background:
     linear-gradient(to top right, transparent calc(50% - 1.2px), var(--trace-strong) calc(50% - 1.2px) 50%, transparent 50%) top right / var(--cut) var(--cut) no-repeat border-box,
     linear-gradient(to bottom left, transparent calc(50% - 1.2px), var(--trace-strong) calc(50% - 1.2px) 50%, transparent 50%) bottom left / var(--cut) var(--cut) no-repeat border-box,
     var(--hull);
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+/* the chamfer clips anything drawn outside the frame, so the focus ring goes inside */
+.nav-toggle:focus-visible,
+.lang-switch a:focus-visible { outline-offset: -6px; }
+
+/* the menu button: always there, left of the logo, opens every section full-screen */
+.nav-toggle {
+  display: inline-flex;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  color: var(--ion);
   cursor: pointer;
   transition: color .2s ease-out;
 }
@@ -238,6 +246,28 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 .nav-open .nav-toggle span { background: transparent; }
 .nav-open .nav-toggle span::before { transform: translateY(6px) rotate(45deg); }
 .nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* language switch, right end of the header: shows the other language (BG on English pages, EN on
+   Bulgarian ones) in a frame the size of the menu button, so the row of links keeps its room.
+   The link to the current language stays in the markup for main.js but is not shown. */
+.lang-switch { display: flex; }
+.lang-switch a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--ion);
+  text-decoration: none;
+  transition: color .2s ease-out;
+}
+.lang-switch a:hover { color: var(--volt); }
+.lang-switch a[aria-current] { display: none; }
 
 /* main.js scales the row of links down so it stays on one line in any language; below 1024px only the menu button remains */
 .nav-inline-off .main-nav { display: none; }
@@ -973,7 +1003,8 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 .btn svg { width: 20px; height: 20px; flex-shrink: 0; transition: transform .2s ease-out; }
 .btn:hover { background: #7cd0ff; }
 .btn:hover svg { transform: translateX(3px); }
-.btn:focus-visible { outline: 2px solid var(--ion); outline-offset: 3px; }
+/* the chamfer clips anything drawn outside the button, so the focus ring sits inside it */
+.btn:focus-visible { outline: 2px solid var(--void); outline-offset: -5px; }
 .btn[disabled] { opacity: .6; cursor: progress; }
 .page-head .btn { margin-top: 28px; }
 
@@ -1012,8 +1043,9 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
 }
 .cta-go svg { width: 24px; height: 24px; transition: transform .2s ease-out; }
-.cta:hover { --edge: var(--volt); --fill: rgba(61, 184, 255, .12); }
-.cta:hover .cta-go svg { transform: translateX(4px); }
+.cta:hover, .cta:focus-visible { --edge: var(--volt); --fill: rgba(61, 184, 255, .12); }
+.cta:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--volt); }
+.cta:hover .cta-go svg, .cta:focus-visible .cta-go svg { transform: translateX(4px); }
 .tiles-section .cta { margin-top: clamp(28px, 3vw, 40px); }
 
 /* ---------- Contact form ---------- */
@@ -1076,6 +1108,7 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 .form-status { margin: 22px 0 0; padding: 14px 18px; border-left: 3px solid var(--volt); background: rgba(61, 184, 255, .08); color: var(--ion); }
 .form-status.is-error { border-left-color: var(--signal); background: rgba(255, 51, 68, .08); }
 .form-status a { color: inherit; }
+.form-detail { display: block; margin-top: 8px; font-size: 13.5px; color: var(--mist); }
 
 /* ---------- Footer: offices on every page ---------- */
 
@@ -1104,6 +1137,8 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 .footer-office a { color: var(--text); text-decoration-color: var(--trace-strong); text-underline-offset: 3px; }
 .footer-office a:hover { color: var(--volt); }
 .footer-office .btn { margin-top: 16px; font-size: 15.5px; min-height: 46px; padding: 10px 18px; }
+.footer-office .btn,
+.footer-office .btn:hover { color: var(--void); }   /* not the footer link colours */
 .footer-copy { margin: 0; font-size: 14px; color: var(--mist); }
 .footer-inner { padding-top: 26px; }
 
