@@ -699,6 +699,50 @@ strong { font-weight: 600; }
   border-top: var(--frame) solid var(--chassis);
 }
 
+/* Contact: one plate per office */
+.offices {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+}
+@media (min-width: 900px) {
+  .offices {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 0;
+  }
+  /* line the parts of the three plates up with each other */
+  @supports (grid-template-rows: subgrid) {
+    .office {
+      display: grid;
+      grid-row: span 5;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+  }
+}
+.office {
+  padding: clamp(20px, 2.5vw, 28px);
+  font-style: normal;
+  background: var(--plate);
+  border: var(--frame) solid var(--chassis);
+}
+.office .flag { height: 40px; margin-bottom: 18px; justify-self: start; }
+.office h2 { margin: 0; font-size: 20px; }
+.office-kind { margin: 2px 0 0; color: var(--steel); }
+.office-lines {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.office-lines li + li { margin-top: 4px; }
+.office-address {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(34, 40, 46, .2);
+}
+.line-label { color: var(--steel); }
+.tbd { color: var(--signal); }
+
 /* closing statement: the one loud element of a document page */
 .statement {
   max-width: none;

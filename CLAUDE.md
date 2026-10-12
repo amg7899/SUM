@@ -34,7 +34,7 @@ Subject: an engineering company converting diesel trucks, buses and agricultural
 ## Content issues to raise when building each page
 - Home: "€COCLOGY" in the title was fixed to "€COLOGY" (reported).
 - About us (built): fixed the Cyrillic "е" in "Turkish trade company" (reported). Still open: the HISTORY section (photos from bulfire.ecoes.eu/about-us/, *without* the three struck-through paragraphs after the note) and where it goes; add the "* * *" divider together with it. Asked whether "Electric power" should be lowercase.
-- Contact us: London phone and address and Istanbul phone are still "XXX"; the client will send them later.
+- Contact us (built): one plate per office, rows aligned with subgrid; phones are tel: links, e-mails mailto:. London phone and address and Istanbul phone are still "XXX" (shown in signal red like the PDF); the client will send them. Asked about the Istanbul address order and "Bakirköy" (Bakırköy?). The large logo at the bottom of the PDF is left out (header and footer already carry it).
 - ECOES Electric Conversion (built): added the missing "1." and "3.3." to the numbered headings and turned "*whether*" / "*when*" into italics (reported). Asked about "The carrot for electrical" (electric?).
 - Images: the gear-and-lightning emblem (in Electric Conversion, Bus & trucks, Agro, FRANCHISE PDFs) is a Depositphotos preview with a visible watermark, so it is left off the site until the client buys the licence and uploads a clean file, or decides otherwise. One tractor photo carries a "TRACTOR.BG" mark (Home and Agro collages); mentioned to the client.
 - Bus & trucks (built): text verbatim, no fixes needed (the "•The" spacing disappears in the list). Product layout: collage sticky beside the text on wide screens.
