@@ -1,3 +1,7 @@
-# SUM website
+# ECOES JV website
 
-Put page text in `content/` and pictures in `images/`.
+Static website (HTML + CSS, no build step), published with GitHub Pages.
+
+- `index.html` – Home page
+- `assets/` – styles, scripts, logo and images
+- `source/` – original content PDFs the site is built from
