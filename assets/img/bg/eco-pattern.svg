@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600"><!-- Icons: Lucide (ISC) https://lucide.dev — drawings: ECOES JV site --><g fill="none" stroke="#7fd4ff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" style="vector-effect:non-scaling-stroke"><g transform="translate(48.0 58.0) rotate(-14 22.0 22.0) scale(1.833)"><path vector-effect="non-scaling-stroke" d="M11 20a10 10 0 0010-10 25.9 25.9 0 00-1.04-7.281 1 1 0 00-1.755-.325C15.833 5.5 13 5.5 9.8 6.1A7 7 0 0011 20" />
+  <path vector-effect="non-scaling-stroke" d="M2 21a5 5 0 012.911-4.544C7.613 15.212 8.351 15.24 11 13" /></g><g transform="translate(280.0 46.0) rotate(0 20.0 20.0) scale(1.667)"><path vector-effect="non-scaling-stroke" d="M12.8 19.6A2 2 0 1 0 14 16H2" />
+  <path vector-effect="non-scaling-stroke" d="M17.5 8a2.5 2.5 0 1 1 2 4H2" />
+  <path vector-effect="non-scaling-stroke" d="M9.8 4.4A2 2 0 1 1 11 8H2" /></g><g transform="translate(447.0 107.0) rotate(8 23.0 23.0) scale(1.917)"><path vector-effect="non-scaling-stroke" d="M11 2h2" />
+  <path vector-effect="non-scaling-stroke" d="m14.28 14-4.56 8" />
+  <path vector-effect="non-scaling-stroke" d="m21 22-1.558-4H4.558" />
+  <path vector-effect="non-scaling-stroke" d="M3 10v2" />
+  <path vector-effect="non-scaling-stroke" d="M6.245 15.04A2 2 0 0 1 8 14h12a1 1 0 0 1 .864 1.505l-3.11 5.457A2 2 0 0 1 16 22H4a1 1 0 0 1-.863-1.506z" />
+  <path vector-effect="non-scaling-stroke" d="M7 2a4 4 0 0 1-4 4" />
+  <path vector-effect="non-scaling-stroke" d="m8.66 7.66 1.41 1.41" /></g><g transform="translate(109.0 249.0) rotate(-18 21.0 21.0) scale(1.750)"><path vector-effect="non-scaling-stroke" d="m11 7-3 5h4l-3 5" />
+  <path vector-effect="non-scaling-stroke" d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" />
+  <path vector-effect="non-scaling-stroke" d="M22 14v-4" />
+  <path vector-effect="non-scaling-stroke" d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></g><g transform="translate(360.0 290.0) rotate(0 20.0 20.0) scale(1.667)"><path vector-effect="non-scaling-stroke" d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" />
+  <path vector-effect="non-scaling-stroke" d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" />
+  <path vector-effect="non-scaling-stroke" d="M5 21h14" /></g><g transform="translate(230.0 420.0) rotate(14 20.0 20.0) scale(1.667)"><path vector-effect="non-scaling-stroke" d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" />
+  <path vector-effect="non-scaling-stroke" d="m2 22 3-3" />
+  <path vector-effect="non-scaling-stroke" d="M7.5 13.5 10 11" />
+  <path vector-effect="non-scaling-stroke" d="M10.5 16.5 13 14" />
+  <path vector-effect="non-scaling-stroke" d="m18 3-4 4h6l-4 4" /></g><g transform="translate(458.0 428.0) rotate(0 22.0 22.0) scale(1.833)"><path vector-effect="non-scaling-stroke" d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+  <path vector-effect="non-scaling-stroke" d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+  <path vector-effect="non-scaling-stroke" d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+  <circle vector-effect="non-scaling-stroke" cx="12" cy="12" r="10" /></g><g transform="translate(50.0 450.0) rotate(0 20.0 20.0) scale(1.667)"><path vector-effect="non-scaling-stroke" d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5" />
+  <path vector-effect="non-scaling-stroke" d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12" />
+  <path vector-effect="non-scaling-stroke" d="m14 16-3 3 3 3" />
+  <path vector-effect="non-scaling-stroke" d="M8.293 13.596 7.196 9.5 3.1 10.598" />
+  <path vector-effect="non-scaling-stroke" d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843" />
+  <path vector-effect="non-scaling-stroke" d="m13.378 9.633 4.096 1.098 1.097-4.096" /></g><g transform="translate(221.0 171.0) rotate(0 19.0 19.0) scale(1.583)"><circle vector-effect="non-scaling-stroke" cx="12" cy="12" r="4" />
+  <path vector-effect="non-scaling-stroke" d="M12 3v1" />
+  <path vector-effect="non-scaling-stroke" d="M12 20v1" />
+  <path vector-effect="non-scaling-stroke" d="M3 12h1" />
+  <path vector-effect="non-scaling-stroke" d="M20 12h1" />
+  <path vector-effect="non-scaling-stroke" d="m18.364 5.636-.707.707" />
+  <path vector-effect="non-scaling-stroke" d="m6.343 17.657-.707.707" />
+  <path vector-effect="non-scaling-stroke" d="m5.636 5.636.707.707" />
+  <path vector-effect="non-scaling-stroke" d="m17.657 17.657.707.707" /></g><g transform="translate(521.0 271.0) rotate(0 19.0 19.0) scale(1.583)"><path vector-effect="non-scaling-stroke" d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z" />
+  <path vector-effect="non-scaling-stroke" d="M12 22v-3" /></g><g transform="translate(43.0 353.0) rotate(0 17.0 17.0) scale(1.417)"><path vector-effect="non-scaling-stroke" d="M16 17h6v-6" />
+  <path vector-effect="non-scaling-stroke" d="m22 17-8.5-8.5-5 5L2 7" /></g><g transform="translate(345.0 505.0) rotate(0 15.0 15.0) scale(1.250)"><circle vector-effect="non-scaling-stroke" cx="12" cy="12" r="1" />
+  <path vector-effect="non-scaling-stroke" d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z" />
+  <path vector-effect="non-scaling-stroke" d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z" /></g><g transform="translate(405.0 205.0) rotate(0 15.0 15.0) scale(1.250)"><path vector-effect="non-scaling-stroke" d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z" />
+  <path vector-effect="non-scaling-stroke" d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97" /></g><g transform="translate(157.0 107.0) rotate(12 13.0 13.0) scale(1.083)"><path vector-effect="non-scaling-stroke" d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /></g><path vector-effect="non-scaling-stroke" d="M92 80 H190 V170 H222" stroke-dasharray="2 5"/><circle vector-effect="non-scaling-stroke" cx="222" cy="170" r="2.5"/><path vector-effect="non-scaling-stroke" d="M326 66 H430 V110" stroke-dasharray="2 5"/><circle vector-effect="non-scaling-stroke" cx="430" cy="110" r="2.5"/><path vector-effect="non-scaling-stroke" d="M152 270 H230 V420" stroke-dasharray="2 5"/><circle vector-effect="non-scaling-stroke" cx="230" cy="420" r="2.5"/><path vector-effect="non-scaling-stroke" d="M400 310 H520" stroke-dasharray="2 5"/><circle vector-effect="non-scaling-stroke" cx="520" cy="310" r="2.5"/><path vector-effect="non-scaling-stroke" d="M480 428 V380 H560" stroke-dasharray="2 5"/></g></svg>

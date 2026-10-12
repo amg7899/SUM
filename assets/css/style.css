@@ -1,5 +1,6 @@
 /* ECOES JV — site styles
-   Dark, "charged" look: machined plates with chamfered corners, thin electric-blue traces.
+   Dark, "charged" look: machined plates with chamfered corners, thin electric-blue traces,
+   faint eco/energy line drawings in the background.
    Every text box wraps, so the layout holds when the page is translated. Notes in CLAUDE.md. */
 
 :root {
@@ -19,11 +20,11 @@
   --paper: #ffffff;         /* plates that carry photos with white backgrounds */
 
   /* type */
-  --font-display: "Tektur", "Arial Narrow", Arial, sans-serif;
+  --font-display: "Jost", "Futura", "Century Gothic", Arial, sans-serif;
   --font-text: "Geologica", "Segoe UI", Arial, sans-serif;
 
   /* layout */
-  --container: 1240px;
+  --container: 1320px;
   --gutter: clamp(16px, 4vw, 40px);
   --header-h: 76px;
   --cut: 18px;              /* chamfer size */
@@ -134,8 +135,9 @@ em { font-style: oblique 10deg; }
   min-height: var(--header-h);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 28px;
+  gap: 18px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .brand {
@@ -143,23 +145,28 @@ em { font-style: oblique 10deg; }
   z-index: 2;
   display: inline-flex;
   flex-shrink: 0;
+  margin-right: auto;
 }
-.brand img { height: 52px; width: auto; }
+.brand img { height: 50px; width: auto; }
 
+.main-nav { flex: 1 1 auto; min-width: 0; }
 .main-nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
-  gap: 22px;
+  column-gap: 20px;
+  row-gap: 0;
 }
 .main-nav a {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 44px;
-  font-size: 14.5px;
+  min-height: 40px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.25;
   color: var(--text);
@@ -172,7 +179,7 @@ em { font-style: oblique 10deg; }
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 6px;
+  bottom: 5px;
   height: 2px;
   background: var(--volt);
   transform: scaleX(0);
@@ -184,14 +191,15 @@ em { font-style: oblique 10deg; }
 .main-nav a[aria-current="page"] { color: var(--ion); }
 .main-nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--signal); }
 
+/* the menu button: always there, left of the logo, opens every section full-screen */
 .nav-toggle {
   --cut: 8px;
   position: relative;
   z-index: 2;
-  display: none;
+  display: inline-flex;
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   padding: 0;
   align-items: center;
   justify-content: center;
@@ -203,7 +211,9 @@ em { font-style: oblique 10deg; }
     var(--hull);
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
   cursor: pointer;
+  transition: color .2s ease-out;
 }
+.nav-toggle:hover { color: var(--volt); }
 .nav-toggle span,
 .nav-toggle span::before,
 .nav-toggle span::after {
@@ -222,42 +232,44 @@ em { font-style: oblique 10deg; }
 .nav-open .nav-toggle span::before { transform: translateY(6px) rotate(45deg); }
 .nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45deg); }
 
-/* compact mode: switched on by main.js whenever the links do not fit, in any language */
-.nav-compact .nav-toggle { display: inline-flex; }
-.nav-compact .main-nav {
+/* main.js hides the row of links on narrow screens or when it would need more than three lines */
+.nav-inline-off .main-nav { display: none; }
+
+/* full-screen menu */
+.nav-open .main-nav {
   position: fixed;
   inset: 0;
   z-index: 1;
   display: flex;
   overflow-y: auto;
-  padding: calc(var(--header-h) + 24px) var(--gutter) 48px;
+  padding: calc(var(--header-h) + 32px) var(--gutter) 48px;
   background:
+    url("../img/bg/energy-flow-dim.svg") right max(var(--gutter), 4vw) bottom 40px / min(560px, 70vw) auto no-repeat,
     radial-gradient(900px 520px at 85% 0%, rgba(61, 184, 255, .14), transparent 65%),
     var(--void);
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-8px);
-  transition: opacity .22s ease-out, transform .22s ease-out, visibility .22s;
+  visibility: visible;
+  animation: menu-in .22s ease-out;
 }
-.nav-compact.nav-open .main-nav { visibility: visible; opacity: 1; transform: none; }
-.nav-compact .main-nav ul {
+@keyframes menu-in { from { opacity: 0; transform: translateY(-8px); } }
+.nav-open .main-nav ul {
   flex-direction: column;
+  flex-wrap: nowrap;
   align-items: stretch;
-  gap: 0;
+  justify-content: flex-start;
   width: 100%;
   max-width: var(--container);
-  margin: auto;
+  margin: 0 auto auto;
 }
-.nav-compact .main-nav li { border-bottom: 1px solid var(--trace); }
-.nav-compact .main-nav a {
+.nav-open .main-nav li { border-bottom: 1px solid var(--trace); }
+.nav-open .main-nav a {
   min-height: 64px;
   padding: 10px 0;
   font-family: var(--font-display);
-  font-size: clamp(20px, 3.6vw, 34px);
-  font-weight: 600;
+  font-size: clamp(20px, 3.2vw, 32px);
+  font-weight: 500;
   white-space: normal;
 }
-.nav-compact .main-nav a::after { bottom: 0; right: auto; width: 56px; }
+.nav-open .main-nav a::after { bottom: 0; right: auto; width: 56px; }
 
 /* ---------- Home: hero ---------- */
 
@@ -318,8 +330,9 @@ em { font-style: oblique 10deg; }
   margin-top: .18em;
   font-family: var(--font-display);
   font-size: clamp(44px, 9vw, 128px);
-  font-weight: 800;
-  line-height: .95;
+  font-weight: 600;
+  line-height: .98;
+  letter-spacing: -.02em;
   color: var(--ion);
   text-wrap: balance;
 }
@@ -466,7 +479,8 @@ em { font-style: oblique 10deg; }
   max-width: 22ch;
   font-family: var(--font-display);
   font-size: clamp(36px, 6.4vw, 80px);
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -.015em;
   line-height: 1;
   color: var(--ion);
   text-wrap: balance;
@@ -685,7 +699,8 @@ em { font-style: oblique 10deg; }
   margin: clamp(64px, 8vw, 112px) 0 0;
   font-family: var(--font-display);
   font-size: clamp(26px, 4vw, 54px);
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -.01em;
   line-height: 1.08;
   color: var(--ion);
   text-wrap: balance;
@@ -926,12 +941,66 @@ em { font-style: oblique 10deg; }
 .line-label { color: var(--mist); }
 .tbd { color: var(--signal); }
 
+
+/* ---------- Background drawings: ecology and the future, kept faint ---------- */
+
+.tiles-section,
+.page-body {
+  position: relative;
+  isolation: isolate;
+}
+.tiles-section::before,
+.page-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../img/bg/eco-pattern.svg") 0 0 / 600px 600px repeat;
+  opacity: .13;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 85%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 85%, transparent);
+  pointer-events: none;
+}
+.page-body::before { background-position: 300px 120px; }
+
+/* energy flow (sun, wind, solar -> battery -> plug -> truck) behind each page title */
+.page-head .container { z-index: 1; }
+.page-head::after {
+  content: "";
+  position: absolute;
+  bottom: 22px;
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2));
+  width: min(480px, 36vw);
+  aspect-ratio: 940 / 320;
+  background: url("../img/bg/energy-flow.svg") center / contain no-repeat;
+  opacity: .3;
+  pointer-events: none;
+}
+@media (max-width: 1100px) {
+  .page-head::after {
+    right: -4vw;
+    width: 70vw;
+    opacity: .13;
+  }
+}
+
+/* a line-drawn horizon of turbines, solar rows, pylons, trees and an electric truck above the footer */
+.site-footer::before {
+  content: "";
+  display: block;
+  width: min(100%, 1600px);
+  margin: -8px auto 28px;
+  aspect-ratio: 1600 / 200;
+  background: url("../img/bg/eco-horizon.svg") center bottom / 100% auto no-repeat;
+  opacity: .32;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
   border-top: 1px solid var(--trace);
   background: #04070b;
-  padding: 40px 0 44px;
+  padding: 0 0 44px;
 }
 .footer-inner {
   display: flex;
