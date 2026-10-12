@@ -6,7 +6,8 @@ Static site (plain HTML + CSS + a little JS, no build step) for ECOES JV, built 
 - The client writes in Bulgarian (sometimes English); answer in the language of their message. Site content is English only for now; Bulgarian may come later.
 - Use the client's text verbatim. Do not add copy, taglines or sections. Fix only obvious typos, and report every fix. When unsure, ask.
 - After every change: commit, push to the branch above, and send the live link plus screenshots.
-- Photos for the HISTORY section of About us come from https://bulfire.ecoes.eu/about-us/. That host is not reachable from the cloud sandbox, so ask the client to upload them.
+- Photos for the HISTORY section of About us come from https://bulfire.ecoes.eu/about-us/. That host is not reachable from the cloud sandbox, so ask the client to upload them. The client will come back to HISTORY once they have all the information.
+- Publishing: GitHub Pages must be switched on by the client (Settings → Pages → Deploy from a branch → this branch, / (root)); no tool here can do it. ecoes.eu currently answers with a certificate for another name (NET::ERR_CERT_COMMON_NAME_INVALID); moving the domain to GitHub Pages later needs DNS changes at the client's registrar.
 
 ## Skills
 Use both for all UI work:
@@ -33,9 +34,9 @@ Subject: an engineering company converting diesel trucks, buses and agricultural
 
 ## Content issues to raise when building each page
 - Home: "€COCLOGY" in the title was fixed to "€COLOGY" (reported).
-- About us (built): fixed the Cyrillic "е" in "Turkish trade company" (reported). Still open: the HISTORY section (photos from bulfire.ecoes.eu/about-us/, *without* the three struck-through paragraphs after the note) and where it goes; add the "* * *" divider together with it. Asked whether "Electric power" should be lowercase.
+- About us (built): fixed the Cyrillic "е" in "Turkish trade company" (reported). Still open: the HISTORY section (photos from bulfire.ecoes.eu/about-us/, *without* the three struck-through paragraphs after the note) and where it goes; add the "* * *" divider together with it. "Electric power" lowercased to "electric power" at the client's request.
 - Contact us (built): one plate per office, rows aligned with subgrid; phones are tel: links, e-mails mailto:. London phone and address and Istanbul phone are still "XXX" (shown in signal red like the PDF); the client will send them. Asked about the Istanbul address order and "Bakirköy" (Bakırköy?). The large logo at the bottom of the PDF is left out (header and footer already carry it).
-- ECOES Electric Conversion (built): added the missing "1." and "3.3." to the numbered headings and turned "*whether*" / "*when*" into italics (reported). Asked about "The carrot for electrical" (electric?).
+- ECOES Electric Conversion (built): added the missing "1." and "3.3." to the numbered headings and turned "*whether*" / "*when*" into italics (reported). "The carrot for electrical" stays as written (client's decision).
 - Images: the gear-and-lightning emblem (in Electric Conversion, Bus & trucks, Agro, FRANCHISE PDFs) is a Depositphotos preview with a visible watermark, so it is left off the site until the client buys the licence and uploads a clean file, or decides otherwise. One tractor photo carries a "TRACTOR.BG" mark (Home and Agro collages); mentioned to the client.
 - Bus & trucks (built): text verbatim, no fixes needed (the "•The" spacing disappears in the list). Product layout: collage sticky beside the text on wide screens.
 - Agro & construction (built): dropped the stray "-" inside the collage box; EUIPO reference shown as "015051941-0001" to match the link in the PDF (reported). Asked: EUIPO registers designs, not patents ("protected by a patent").
