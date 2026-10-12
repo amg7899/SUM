@@ -1,11 +1,14 @@
-// Navigation: the menu button (left of the logo) always opens every section full-screen.
-// The row of links stays in the header, wrapping onto more lines if needed, in any
-// language; it is hidden only when it would need more than three lines (phones, very long
-// translations). Re-checked on resize, after fonts load and when the page is translated.
+// Navigation. The menu button (left of the logo) always opens every section full-screen.
+// The links stay on one line in the header in any language: when a translation is longer,
+// their size is scaled down just enough to fit (down to 74%). Below 1024px, or if even that
+// is not enough, only the menu button remains. Re-checked on resize, after fonts load and
+// whenever the browser translates the page (it swaps the text and sets <html lang>).
 (function () {
+  var MIN_SCALE = 0.74;
   var root = document.documentElement;
   var header = document.querySelector('.site-header');
-  var list = header && header.querySelector('.main-nav ul');
+  var nav = header && header.querySelector('.main-nav');
+  var list = nav && nav.querySelector('ul');
   var toggle = header && header.querySelector('.nav-toggle');
   if (!list || !toggle) return;
 
@@ -19,20 +22,29 @@
     }
   }
 
-  function rows() {
-    var count = 0, lastTop = null;
-    for (var i = 0; i < list.children.length; i++) {
-      var top = list.children[i].offsetTop;
-      if (lastTop === null || top > lastTop + 4) { count++; lastTop = top; }
-    }
-    return count;
-  }
-
   function fit() {
     if (header.classList.contains('nav-open')) return;
     header.classList.remove('nav-inline-off');
-    var off = window.innerWidth < 1024 || rows() > 3;
-    header.classList.toggle('nav-inline-off', off);
+    header.style.setProperty('--nav-scale', '1');
+    if (window.innerWidth < 1024) {
+      header.classList.add('nav-inline-off');
+      return;
+    }
+    var scale = 1;
+    for (var i = 0; i < 4 && needed() > nav.clientWidth; i++) {
+      scale = Math.max(MIN_SCALE, scale * nav.clientWidth / needed() * 0.995);
+      header.style.setProperty('--nav-scale', scale.toFixed(3));
+      if (scale === MIN_SCALE) break;
+    }
+    if (needed() > nav.clientWidth) header.classList.add('nav-inline-off');
+  }
+
+  // width of the links from the first to the last (the row is right-aligned, so overflow
+  // runs off to the left where scrollWidth does not see it)
+  function needed() {
+    var items = list.children;
+    if (!items.length) return 0;
+    return items[items.length - 1].getBoundingClientRect().right - items[0].getBoundingClientRect().left;
   }
 
   toggle.addEventListener('click', function () {
@@ -53,7 +65,11 @@
 
   fit();
   window.addEventListener('resize', fit);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-  // browser translation swaps the text of the links
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(fit);
+    // a translation can pull in another subset of the web font (e.g. Cyrillic) after the first fit
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', fit);
+  }
   new MutationObserver(fit).observe(list, { subtree: true, childList: true, characterData: true });
+  new MutationObserver(fit).observe(root, { attributes: true, attributeFilter: ['lang', 'class'] });
 })();

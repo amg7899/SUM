@@ -26,7 +26,7 @@
   /* layout */
   --container: 1320px;
   --gutter: clamp(16px, 4vw, 40px);
-  --header-h: 76px;
+  --header-h: 86px;
   --cut: 18px;              /* chamfer size */
 
   /* layers */
@@ -147,7 +147,7 @@ em { font-style: oblique 10deg; }
   flex-shrink: 0;
   margin-right: auto;
 }
-.brand img { height: 50px; width: auto; }
+.brand img { height: 62px; width: auto; }
 
 .main-nav { flex: 1 1 auto; min-width: 0; }
 .main-nav ul {
@@ -155,18 +155,17 @@ em { font-style: oblique 10deg; }
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
   align-items: center;
-  column-gap: 20px;
-  row-gap: 0;
+  column-gap: calc(20px * var(--nav-scale, 1));
 }
 .main-nav a {
   position: relative;
   display: flex;
   align-items: center;
   min-height: 40px;
-  font-size: 14px;
+  font-size: calc(14.5px * var(--nav-scale, 1));
   font-weight: 500;
   line-height: 1.25;
   color: var(--text);
@@ -190,6 +189,14 @@ em { font-style: oblique 10deg; }
 .main-nav a:hover::after { transform: scaleX(1); }
 .main-nav a[aria-current="page"] { color: var(--ion); }
 .main-nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--signal); }
+
+/* the header row may use more width than the page content */
+.site-header .container { max-width: calc(1700px + 2 * var(--gutter)); }
+
+/* our own Bulgarian link names, shown when the page is translated to Bulgarian (the browser sets lang="bg") */
+.nav-l10n { display: none; }
+html[lang|="bg"] .nav-src { display: none; }
+html[lang|="bg"] .nav-l10n { display: inline; }
 
 /* the menu button: always there, left of the logo, opens every section full-screen */
 .nav-toggle {
@@ -232,7 +239,7 @@ em { font-style: oblique 10deg; }
 .nav-open .nav-toggle span::before { transform: translateY(6px) rotate(45deg); }
 .nav-open .nav-toggle span::after { transform: translateY(-6px) rotate(-45deg); }
 
-/* main.js hides the row of links on narrow screens or when it would need more than three lines */
+/* main.js scales the row of links down so it stays on one line in any language; below 1024px only the menu button remains */
 .nav-inline-off .main-nav { display: none; }
 
 /* full-screen menu */
@@ -1010,7 +1017,7 @@ em { font-style: oblique 10deg; }
   gap: 24px 48px;
 }
 .footer-brand { display: inline-flex; }
-.footer-brand img { height: 48px; width: auto; }
+.footer-brand img { height: 58px; width: auto; }
 .footer-nav ul {
   list-style: none;
   margin: 0;
