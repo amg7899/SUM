@@ -16,20 +16,22 @@ Use both for all UI work:
   `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "focus visible keyboard" --domain ux`
   (the `${CLAUDE_PLUGIN_ROOT}` paths in its SKILL.md don't apply to this project install).
 
-## Design system
-Subject: an engineering company converting diesel trucks, buses and agricultural/construction machinery to electric, plus a mobile-charging franchise. Audience: fleet owners, municipalities, bodybuilders, farmers, investors.
+## Design system (v2, "charged": dark, futuristic, translation-proof)
+Subject: an engineering company converting diesel trucks, buses and agricultural/construction machinery to electric, plus a mobile-charging franchise. Audience: fleet owners, municipalities, bodybuilders, farmers, investors. The client asked for a futuristic, modern, professional look that still fits when the browser translates the page (v1, light "spec sheet", was rejected).
 
-- Palette: signal red `#e30613` (logo red; only for the € device, current-page marks and hover/focus), chassis graphite `#22282e` (text, frames, footer), steel `#5b6670` (secondary text), aluminium `#e9edf0` (page ground), white `#ffffff` (header, panels).
-- Type: Science Gothic (display: masthead, panel titles; Bank Gothic lineage, reads like truck/machinery badging) + IBM Plex Sans (text, nav, labels). Both cover Cyrillic for a future Bulgarian version.
-- About us: the JV plate is wired to the three company plates like a schematic (trunk, bus and drops in 2px graphite; on phones a rail down the left with ticks). Flags are SVGs in `assets/img/flags/` and mark each company's paragraph. The CEO photo is small (262×343), so it is never upscaled on desktop.
-- Layout: left-aligned. White header with a 2px graphite rule. Masthead: full company name small, then the slogan "€CONOMY & €COLOGY" on one line spanning the content width, with the € glyphs in red (the one bold element). Home sections are one framed 2×2 grid of panels with shared 2px graphite rules, echoing the bordered boxes in `source/Home.pdf`. No floating cards, shadows or gradients.
-- Document pages (Electric Conversion and later ones): ruled sections, heading column (sticky) + text column ≥1024px, square list markers, bold runs from the PDF as <strong> (IBM Plex 600), the closing all-caps sentence as the one big Science Gothic statement.
-- Motion: only in response to the user (nav underline, panel caption turns red on hover/focus). Respect reduced motion.
-- Quality floor: contrast ≥ 4.5:1, visible focus, 44px targets, WebP + JPEG with width/height, no horizontal scroll at 320–1920px. Check screenshots at 375 / 768 / 1024 / 1440.
+- Palette: void `#06090e` (page), hull `#0c1219` (plates), trace `rgba(148,178,210,.18)` (hairlines), ion `#edf2f8` (headings/emphasis), text `#c3cdd9`, mist `#93a1b3` (secondary), volt `#3db8ff` (energy: traces, focus, links, list markers), signal `#ff3344` (brand red: the € glyphs, current page, the solar-owners plate), paper `#fff` (plates that carry photos with white backgrounds).
+- Type: Tektur (display, 500–800) + Geologica (text, 300–700, slnt for italics). Both have Cyrillic.
+- Shape: chamfered plates (top-right and bottom-left corners cut) with a 1px edge drawn along the cuts too; one shared rule in style.css (`.plate` and the component list next to it). Thin volt lines with a soft glow act as wiring: hero trace, About us schematic (trunk, bus, drops; rail with ticks on phones), section nodes on document pages.
+- Home: hero with the company name small and "€CONOMY & €COLOGY" huge (wraps to two lines), the logo's globe drawn large and faint behind it, a trace that draws in once on load (the only non-user motion). Four tiles (plates) with the photo on a white inner plate, the PDF labels as chips above the photo, title + arrow below.
+- Document pages: page head with grid texture and a short volt line under the title; ruled sections with a volt node, sticky heading column + text column ≥1024px; diamond list markers; callouts on a faint volt plate; the closing all-caps sentence as the big statement.
+- Translation-proof rules: no nowrap on text; containers grow with content; labels never sit on top of photos (chips wrap instead); the header nav measures itself (main.js) and switches to the full-screen menu whenever the links don't fit, re-checking on resize, font load and translation; brand names, the slogan, e-mails, phone numbers and addresses carry `translate="no"`. Nav labels are wrapped in `span.nav-label` so spaces next to protected names survive inside the flex links.
+- Test: pseudo-translate every page (Cyrillic, words ~45% longer) at 320/390/768/1024/1440 and check for horizontal overflow and clipped boxes (script used: Playwright, see git history of this note).
+- Photos are being replaced by the client; image frames take any aspect ratio (the tile media flexes, figures are max 960px wide).
+- Quality floor: contrast ≥ 4.5:1, visible 2px volt focus ring, 44px targets, WebP + JPEG with width/height, no horizontal scroll at 320–1920px, reduced motion respected.
 
 ## Structure
 - `index.html`: Home. Each section page will live in its own folder with an `index.html`, matching the original ecoes.eu URLs: `about-us/`, `electric-conversion/`, `franchise/`, `electric-conversions-bus-truck/`, `electric-agro-truck-construction/`, `contact-us/`.
-- `assets/css/style.css`, `assets/js/main.js`, `assets/img/`. The logo is redrawn as `assets/img/logo.svg`.
+- `assets/css/style.css`, `assets/js/main.js` (nav fit + menu), `assets/img/`. The logo is redrawn as `assets/img/logo.svg` (light) and `assets/img/logo-dark.svg` (used on the dark site).
 - Home collages in `assets/img/home/` are rebuilt from the images embedded in `source/Home.pdf` at their original positions (PyMuPDF + Pillow). The labels over them are HTML, positioned as in the PDF.
 
 ## Content issues to raise when building each page
