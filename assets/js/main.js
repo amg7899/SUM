@@ -25,13 +25,16 @@
 
   function fit() {
     if (header.classList.contains('nav-open')) return;
-    header.classList.remove('nav-inline-off');
+    header.classList.remove('nav-inline-off', 'mail-off');
     header.style.setProperty('--nav-scale', '1');
     list.style.removeProperty('--nav-shift');
     if (window.innerWidth < 1024) {
       header.classList.add('nav-inline-off');
       return;
     }
+    // the e-mail box beside the language button gives way first, so the links keep their size
+    // and at least 48px (18px header gap + 30) on each side
+    if (needed() + 60 > nav.clientWidth) header.classList.add('mail-off');
     var scale = 1;
     for (var i = 0; i < 4 && needed() > nav.clientWidth; i++) {
       scale = Math.max(MIN_SCALE, scale * nav.clientWidth / needed() * 0.995);
@@ -40,19 +43,22 @@
     }
     if (needed() > nav.clientWidth) {
       header.classList.add('nav-inline-off');
+      header.classList.remove('mail-off');      // the row is gone, so there is room again
     } else {
       centerRow();
       placeSubs();
     }
   }
 
-  // The row is centred between the logo and the language button. The logo side is wider, so
-  // move the row left to the middle of the window, as far as the free space beside it allows
-  // while it stays at least 48px from the logo (18px header gap + 30).
+  // The row is centred between the logo and what stands on the right (the e-mail box and the
+  // language button, or the button alone). The two sides differ in width, so move the row to
+  // the middle of the window, as far as the free space beside it allows while it stays at
+  // least 48px (18px header gap + 30) from its neighbours.
   function centerRow() {
     var box = nav.getBoundingClientRect();
-    var shift = Math.min(box.left + box.width / 2 - root.clientWidth / 2, (nav.clientWidth - needed()) / 2 - 30);
-    if (shift > 0) list.style.setProperty('--nav-shift', -shift.toFixed(1) + 'px');
+    var room = (nav.clientWidth - needed()) / 2 - 30;
+    var shift = Math.max(-room, Math.min(box.left + box.width / 2 - root.clientWidth / 2, room));
+    if (room > 0 && shift) list.style.setProperty('--nav-shift', (-shift).toFixed(1) + 'px');
   }
 
   // width of the links from the first to the last (the row is centred, so overflow runs off

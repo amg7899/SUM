@@ -160,8 +160,8 @@ em { font-style: oblique 10deg; }
   align-items: center;
   column-gap: calc(20px * var(--nav-scale, 1));
 }
-/* centred between the logo and the language button, then moved left by main.js (--nav-shift)
-   to the middle of the window, as far as the free space allows (the logo side is wider) */
+/* centred between the logo and the right-hand group, then moved by main.js (--nav-shift) to
+   the middle of the window, as far as the free space allows (the two sides differ in width) */
 .main-nav > ul { transform: translateX(var(--nav-shift, 0px)); }
 .nav-open .main-nav > ul { transform: none; }
 .main-nav a {
@@ -304,8 +304,9 @@ em { font-style: oblique 10deg; }
 html[lang|="bg"] .l10n-src { display: none; }
 html[lang|="bg"] .l10n-bg { display: inline; }
 
-/* small chamfered frames in the header: the menu button (left) and the language switch (right) */
+/* small chamfered frames in the header: the menu button (left), the e-mail box and the language switch (right) */
 .nav-toggle,
+.header-mail,
 .lang-switch {
   --cut: 8px;
   position: relative;
@@ -321,6 +322,35 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 /* the chamfer clips anything drawn outside the frame, so the focus ring goes inside */
 .nav-toggle:focus-visible,
 .lang-switch a:focus-visible { outline-offset: -6px; }
+
+/* the two e-mail addresses, one above the other, left of the language button (client's request).
+   It gives way first when the row of links needs the room (main.js adds .mail-off), and on phones. */
+.header-mail {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 46px;
+  margin-right: -8px;               /* one group with the language button */
+  padding: 0 12px 0 11px;
+  font-style: normal;
+}
+.header-mail-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--volt); }
+.header-mail-list { display: flex; flex-direction: column; }
+.header-mail a {
+  display: block;
+  padding: 0 4px;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text);
+  text-decoration: none;
+  transition: color .2s ease-out;
+}
+.header-mail a:hover { color: var(--volt); }
+.header-mail a:focus-visible { outline-offset: -1px; }
+.mail-off .header-mail { display: none; }
+@media (max-width: 479px) {
+  .header-mail { display: none; }
+}
 
 /* the menu button: always there, left of the logo, opens every section full-screen */
 .nav-toggle {
