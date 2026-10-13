@@ -101,7 +101,7 @@ em { font-style: oblique 10deg; }
 
 .plate,
 .org-jv, .org-card, .bio-photo, .bio-text, .callout, .option,
-.doc-section--plate, .office, .figure, .partner-link picture {
+.doc-section--plate, .office, .figure, .partner-link picture, .sub-nav {
   --edge: var(--trace-strong);
   --fill: var(--hull);
   border: 1px solid var(--edge);
@@ -189,6 +189,108 @@ em { font-style: oblique 10deg; }
 .main-nav a:hover::after { transform: scaleX(1); }
 .main-nav a[aria-current="page"] { color: var(--ion); }
 .main-nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--signal); }
+
+/* "ECOES Conversion" and its two conversion pages: with a mouse the panel slides down on hover,
+   the arrow button opens it for touch and keyboard. A volt wire drops from the link to the panel,
+   which main.js shifts left (--sub-shift) if it would leave the window. */
+.main-nav .has-sub { position: relative; display: flex; align-items: center; }
+.sub-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: max(24px, calc(26px * var(--nav-scale, 1)));
+  height: 40px;
+  padding: 0;
+  color: var(--mist);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color .2s ease-out;
+}
+.sub-toggle svg { width: 12px; height: 12px; transition: transform .2s ease-out; }
+.sub-toggle:hover,
+.sub-toggle[aria-expanded="true"] { color: var(--volt); }
+.sub-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.sub-panel {
+  --wire: 26px;
+  position: absolute;
+  top: 100%;
+  left: var(--sub-shift, 0px);
+  z-index: 3;
+  width: max-content;
+  max-width: min(580px, calc(100vw - 32px));
+  padding-top: var(--wire);          /* part of the panel, so the hover holds on the way down */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity .18s ease-out, transform .18s ease-out, visibility 0s linear .18s;
+}
+.sub-panel::before {                 /* the wire, from the link's underline to the panel */
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: calc(14px - var(--sub-shift, 0px));
+  width: 2px;
+  height: calc(var(--wire) + 5px);
+  background: var(--volt);
+  box-shadow: 0 0 8px rgba(61, 184, 255, .7);
+}
+.main-nav .has-sub.is-open > a::after { transform: scaleX(1); }
+.has-sub.is-open > .sub-panel {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition: opacity .18s ease-out, transform .18s ease-out, visibility 0s;
+}
+@media (hover: hover) {
+  .has-sub:hover > .sub-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity .18s ease-out, transform .18s ease-out, visibility 0s;
+  }
+  .has-sub.is-dismissed:hover > .sub-panel {      /* closed with Escape until the mouse leaves */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  .has-sub:hover > .sub-toggle { color: var(--volt); }
+  .has-sub:hover > .sub-toggle svg { transform: rotate(180deg); }
+  .main-nav .has-sub:hover > a::after { transform: scaleX(1); }
+}
+.main-nav .sub-nav {                 /* a column, not the row of the links above */
+  --cut: 14px;
+  display: block;
+  margin: 0;
+  padding: 6px 0;
+}
+.sub-nav li + li { margin: 0 16px; border-top: 1px solid var(--trace); }
+.sub-nav li + li a { margin: 0 -16px; }
+.main-nav .sub-nav a {
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 24px 10px 18px;
+  font-size: 15px;
+  line-height: 1.35;
+  white-space: normal;
+}
+.main-nav .sub-nav a::after { content: none; }
+.main-nav .sub-nav a::before {       /* the diamond of the lists on the document pages */
+  content: "";
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--volt);
+  transform: rotate(45deg);
+  transition: background-color .2s ease-out;
+}
+.main-nav .sub-nav a:hover::before { background: var(--volt); }
+.main-nav .sub-nav a[aria-current="page"]::before { background: var(--signal); border-color: var(--signal); }
+.main-nav .sub-nav a:focus-visible { outline-offset: -4px; }   /* the plate clips anything outside */
+/* on the bus & trucks and agro pages the parent link carries the current-page mark */
+.main-nav .has-sub.is-current > a { color: var(--ion); }
+.main-nav .has-sub.is-current > a::after { transform: scaleX(1); background: var(--signal); }
 
 /* the header row may use more width than the page content */
 .site-header .container { max-width: calc(1700px + 2 * var(--gutter)); }
@@ -307,6 +409,36 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   white-space: normal;
 }
 .nav-open .main-nav a::after { bottom: 0; right: auto; width: 56px; }
+/* in the full-screen menu the two conversion pages sit under "ECOES Conversion", on a volt rail */
+.nav-open .main-nav .has-sub { display: block; }
+.nav-open .sub-toggle { display: none; }
+.nav-open .sub-panel {
+  position: static;
+  width: auto;
+  max-width: none;
+  padding: 0 0 16px;
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+.nav-open .sub-panel::before { content: none; }
+.nav-open .main-nav .sub-nav {
+  width: auto;
+  margin: 0 0 0 4px;
+  padding: 0 0 0 22px;
+  border: 0;
+  border-left: 2px solid var(--volt);
+  background: none;
+  clip-path: none;
+}
+.nav-open .main-nav .sub-nav li { margin: 0; border: 0; }
+.nav-open .main-nav .sub-nav a {
+  margin: 0;
+  min-height: 52px;
+  padding: 8px 0;
+  font-size: clamp(17px, 2.4vw, 24px);
+}
 
 /* ---------- Home: hero ---------- */
 

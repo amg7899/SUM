@@ -13,6 +13,7 @@
   if (!list || !toggle) return;
 
   function setOpen(open) {
+    subs.forEach(function (li) { setSub(li, false); });
     header.classList.toggle('nav-open', open);
     root.classList.toggle('nav-lock', open);
     toggle.setAttribute('aria-expanded', String(open));
@@ -37,6 +38,7 @@
       if (scale === MIN_SCALE) break;
     }
     if (needed() > nav.clientWidth) header.classList.add('nav-inline-off');
+    else placeSubs();
   }
 
   // width of the links from the first to the last (the row is right-aligned, so overflow
@@ -47,16 +49,66 @@
     return items[items.length - 1].getBoundingClientRect().right - items[0].getBoundingClientRect().left;
   }
 
+  // "ECOES Conversion" has a panel with the bus & trucks and agro pages. A mouse opens it by
+  // hovering (CSS); its arrow button opens and closes it for touch and keyboard. Escape, a click
+  // elsewhere or moving the focus away closes it.
+  var subs = Array.prototype.slice.call(list.querySelectorAll('.has-sub'));
+  function setSub(li, open) {
+    li.querySelector('.sub-toggle').setAttribute('aria-expanded', String(open));
+    li.classList.toggle('is-open', open);
+    if (open) li.classList.remove('is-dismissed');
+  }
+  // keep the panel inside the window: shift it left by as much as it would stick out
+  function placeSubs() {
+    subs.forEach(function (li) {
+      li.style.removeProperty('--sub-shift');
+      var over = li.getBoundingClientRect().left + li.querySelector('.sub-panel').offsetWidth -
+        (root.clientWidth - 16);
+      if (over > 0) li.style.setProperty('--sub-shift', -Math.ceil(over) + 'px');
+    });
+  }
+  subs.forEach(function (li) {
+    var button = li.querySelector('.sub-toggle');
+    button.addEventListener('click', function () {
+      var open = button.getAttribute('aria-expanded') !== 'true';
+      subs.forEach(function (other) { setSub(other, false); });
+      setSub(li, open);
+    });
+    li.addEventListener('focusout', function (e) {
+      if (!li.contains(e.relatedTarget)) setSub(li, false);
+    });
+    li.addEventListener('mouseleave', function () { li.classList.remove('is-dismissed'); });
+  });
+  document.addEventListener('click', function (e) {
+    subs.forEach(function (li) { if (!li.contains(e.target)) setSub(li, false); });
+  });
+  // Escape closes an open panel, also one shown by hovering (it stays closed until the mouse leaves)
+  function closeSubs() {
+    var closed = false;
+    subs.forEach(function (li) {
+      var button = li.querySelector('.sub-toggle');
+      if (button.getAttribute('aria-expanded') !== 'true' && !li.matches(':hover')) return;
+      closed = true;
+      setSub(li, false);
+      li.classList.add('is-dismissed');
+      if (li.contains(document.activeElement)) button.focus();
+    });
+    return closed;
+  }
+
   toggle.addEventListener('click', function () {
     var open = !header.classList.contains('nav-open');
     setOpen(open);
     if (!open) fit();
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && header.classList.contains('nav-open')) {
+    if (e.key !== 'Escape') return;
+    if (header.classList.contains('nav-open')) {
       setOpen(false);
       fit();
       toggle.focus();
+    } else {
+      closeSubs();
     }
   });
   list.addEventListener('click', function (e) {
