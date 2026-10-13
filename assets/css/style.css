@@ -156,10 +156,14 @@ em { font-style: oblique 10deg; }
   padding: 0;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   column-gap: calc(20px * var(--nav-scale, 1));
 }
+/* centred between the logo and the language button, then moved left by main.js (--nav-shift)
+   to the middle of the window, as far as the free space allows (the logo side is wider) */
+.main-nav > ul { transform: translateX(var(--nav-shift, 0px)); }
+.nav-open .main-nav > ul { transform: none; }
 .main-nav a {
   position: relative;
   display: flex;
