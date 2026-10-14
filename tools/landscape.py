@@ -1,28 +1,33 @@
 """Draws the transparent landscape behind the hero, the page heads, the menu and the footer:
-misty hills in layers of translucent white, a wind farm on the far ridge and a power line
+misty hills in layers of translucent white, wind turbines on the far ridge and a power line
 running off into the distance. White, so it only lightens the light it sits on.
 
     python3 tools/landscape.py        (writes assets/img/deco/landscape.svg and landscape-hero.svg)
 
-The drawing is 2400 x 520 units with the wind farm on the right; the canvas reaches 3200
-units further left (hills and the power line only), so it covers wide screens when it is
-anchored bottom right. The hero version leaves out the power line (it would run behind the
-slogan). Standard library only.
+Two scenes, each 2400 x 520 units:
+- landscape.svg (page heads, menu, footer): the wind farm on the right and the power line;
+  the canvas reaches 3200 units further left (hills and the power line only), so it covers
+  wide screens when it is anchored bottom right.
+- landscape-hero.svg (Home): symmetrical for the centred slogan, a low valley in the middle and
+  a wind farm on the ridge at each side, no power line; scaled to the width of the hero.
+Standard library only.
 """
 import math
 import os
 
-W, H = 2400, 520        # the drawing; the wind farm stands in its right part
-EXT = 3200              # how far the canvas continues to the left of x = 0
+W, H = 2400, 520        # the drawing
 INK = "#14261d"         # --ink in style.css
 
-# x, hub height, rotor angle (degrees), depth (1 = farther: smaller, fainter, lower on the ridge).
-# Blade tips must stay inside the canvas (far(x) + 6 - 1.62 * height > 8), no blade may point
-# straight down along its tower, and neighbouring rotors keep clear of each other.
+# Turbines: x, hub height, rotor angle (degrees), depth (1 = farther: smaller, fainter, lower on
+# the ridge). Blade tips must stay inside the canvas (far(x) + 6 - 1.62 * height > 8), no blade
+# may point straight down along its tower, and neighbouring rotors keep clear of each other.
 TURBINES = [(1745, 168, -14, 0), (1930, 150, 36, 1), (2090, 204, -6, 0), (2265, 176, 2, 0), (2395, 140, -34, 1)]
-# x, height: equal towers on the left, then smaller and closer together towards the wind farm
+# Pylons: x, height: equal towers on the left, then smaller and closer together towards the wind farm
 PYLONS = [(x, 118) for x in range(-3300, -500, 400)] + [(-560, 118), (-200, 118), (150, 116), (540, 110),
                                                          (900, 100), (1220, 88), (1490, 76), (1700, 64)]
+# Home: a wind farm at each side, outside the middle 50% where the centred slogan stands
+HERO_TURBINES = [(120, 140, -40, 1), (265, 196, 20, 0), (425, 166, -24, 0),
+                 (1975, 170, 14, 0), (2130, 204, -40, 0), (2290, 150, 30, 1)]
 
 
 def num(v):
@@ -50,10 +55,29 @@ def near(x):
             - 4 * math.sin(x / 140 + 2.1))
 
 
-def ridge(fn, step=40):
+def hero_far(x):
+    return (440 - bump(x, 300, 92, 360) - bump(x, 2120, 98, 400) - 8 * math.sin(x / 230)
+            - 4 * math.sin(x / 101 + 1.3))
+
+
+def hero_mid(x):
+    return (466 - bump(x, 760, 30, 340) - bump(x, 1650, 34, 360) - 6 * math.sin(x / 170 + .4))
+
+
+def hero_near(x):
+    return 494 - bump(x, 1200, 14, 620) - 4 * math.sin(x / 140 + 2.1)
+
+
+class Scene:
+    def __init__(self, ext, far, mid, near, turbines, pylons, tops):
+        self.ext, self.far, self.mid, self.near = ext, far, mid, near
+        self.turbines, self.pylons, self.tops = turbines, pylons, tops
+
+
+def ridge(fn, ext, step=40):
     """A hill layer: the ridge as a smooth curve (Catmull-Rom as cubic Béziers), closed below the
     canvas, so one path carries both the translucent fill and the white edge line."""
-    x0, x1 = -EXT - 40, W + 40
+    x0, x1 = -ext - 40, W + 40
     pts = [(x, fn(x)) for x in range(x0, x1, step)] + [(x1, fn(x1))]
     d = [f"M{num(pts[0][0])} {num(pts[0][1])}"]
     cur = pts[0]
@@ -122,13 +146,13 @@ def opacity(v):
     return f"{v:.2f}".rstrip("0").rstrip(".")
 
 
-def draw(power_line=True):
+def draw(sc):
     ns = ' vector-effect="non-scaling-stroke"'
     edge = f'stroke="#fff" stroke-opacity=".95" stroke-width="1.3"{ns}'
-    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{-EXT} 0 {W + EXT} {H}" width="{W + EXT}" height="{H}">',
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{-sc.ext} 0 {W + sc.ext} {H}" width="{W + sc.ext}" height="{H}">',
          "<!-- ECOES JV site: transparent landscape, drawn by tools/landscape.py -->", "<defs>"]
     # each hill layer is most opaque along its ridge and fades towards the bottom
-    for gid, top, (a0, a1) in (("f", far(2050), (.46, .12)), ("m", mid(1650), (.52, .16)), ("n", near(2150), (.6, .22))):
+    for gid, top, (a0, a1) in zip("fmn", sc.tops, ((.46, .12), (.52, .16), (.6, .22))):
         o.append(f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" x1="0" y1="{num(top)}" x2="0" y2="{H}">'
                  f'<stop offset="0" stop-color="#fff" stop-opacity="{a0}"/><stop offset="1" stop-color="#fff" stop-opacity="{a1}"/></linearGradient>')
     o.append("</defs>")
@@ -136,22 +160,22 @@ def draw(power_line=True):
     # the wind farm on the far ridge, farther turbines first (the ridge covers their feet)
     for depth in (1, 0):
         paths, hubs = [], []
-        for x, h, angle, dp in TURBINES:
+        for x, h, angle, dp in sc.turbines:
             if dp == depth:
-                d, hub = turbine(x, far(x) + 6 + 10 * depth, h, angle)
+                d, hub = turbine(x, sc.far(x) + 6 + 10 * depth, h, angle)
                 paths.append(d)
                 hubs.append(hub.replace("/>", ns + "/>"))
         o.append(f'<g fill="#fff" fill-opacity="{opacity(.62 * (1 - .35 * depth))}" stroke="{INK}" '
                  f'stroke-opacity="{opacity(.2 * (1 - .4 * depth))}" stroke-width=".9" stroke-linejoin="round">'
                  f'<path d="{"".join(paths)}"{ns}/>{"".join(hubs)}</g>')
-    o.append(f'<path d="{ridge(far)}" fill="url(#f)" {edge}/>')
+    o.append(f'<path d="{ridge(sc.far, sc.ext)}" fill="url(#f)" {edge}/>')
 
     # the power line over the middle hills, its cables sagging between the towers
-    if power_line:
+    if sc.pylons:
         towers, tips = [], []
-        for x, h in PYLONS:
-            d, t = pylon(x, mid(x) + 3, h)
-            if -EXT <= x <= W:
+        for x, h in sc.pylons:
+            d, t = pylon(x, sc.mid(x) + 3, h)
+            if -sc.ext <= x <= W:
                 towers.append(d)
             tips.append(t)
         cables = []
@@ -162,16 +186,20 @@ def draw(power_line=True):
         o.append(f'<g fill="none" stroke="{INK}" stroke-linejoin="round">'
                  f'<path d="{"".join(cables)}" stroke-opacity=".13" stroke-width=".9"{ns}/>'
                  f'<path d="{"".join(towers)}" stroke-opacity=".15" stroke-width="1"{ns}/></g>')
-    o.append(f'<path d="{ridge(mid)}" fill="url(#m)" {edge}/>')
-    o.append(f'<path d="{ridge(near)}" fill="url(#n)" {edge}/>')
+    o.append(f'<path d="{ridge(sc.mid, sc.ext)}" fill="url(#m)" {edge}/>')
+    o.append(f'<path d="{ridge(sc.near, sc.ext)}" fill="url(#n)" {edge}/>')
     o.append("</svg>")
     return "\n".join(o) + "\n"
 
 
+MAIN = Scene(3200, far, mid, near, TURBINES, PYLONS, (far(2050), mid(1650), near(2150)))
+HERO = Scene(0, hero_far, hero_mid, hero_near, HERO_TURBINES, [],
+             tuple(min(fn(x) for x in range(0, W + 1, 10)) for fn in (hero_far, hero_mid, hero_near)))
+
 if __name__ == "__main__":
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "img", "deco")
     os.makedirs(out, exist_ok=True)
-    for name, svg in (("landscape.svg", draw()), ("landscape-hero.svg", draw(power_line=False))):
+    for name, svg in (("landscape.svg", draw(MAIN)), ("landscape-hero.svg", draw(HERO))):
         with open(os.path.join(out, name), "w") as fh:
             fh.write(svg)
         print(name, round(len(svg.encode()) / 1024, 1), "KB")

@@ -511,7 +511,8 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 /* The transparent landscape (assets/img/deco, drawn by tools/landscape.py): misty hills in layers
    of translucent white, a wind farm and a power line. White only, so it lightens the light behind
    the text and never darkens it. Anchored bottom right at the height set per place; the drawing
-   continues far to the left, so it covers any width. Also in the menu and, mirrored, the footer. */
+   continues far to the left, so it covers any width. Also in the menu and, mirrored, the footer.
+   Home has its own symmetrical scene (see the hero). */
 .hero::after,
 .page-head::after,
 .site-footer::before {
@@ -544,34 +545,35 @@ html[lang|="bg"] .l10n-bg { display: inline; }
           mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent);
 }
 .hero-globe {
-  /* the logo's globe, drawn large and faint */
+  /* the logo's globe, drawn large and faint, centred behind the slogan as in the logo */
   position: absolute;
   z-index: -2;
   top: 50%;
-  right: -12%;
+  left: 50%;
   width: min(1100px, 95vw);
   height: auto;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   color: var(--sprout);
   opacity: .3;
   pointer-events: none;
 }
-/* the wind farm stands in front of the lower globe, right of the slogan (no power line here: it
-   would run behind the slogan); on phones a small one under the green line */
+/* a wind farm on each side of the centred slogan, a low valley under the words (no power line);
+   the drawing takes the width of the hero (at least 560px, centred) */
 .hero::after {
   z-index: -1;
-  height: clamp(150px, 27vw, 430px);
-  background-image: url("../img/deco/landscape-hero.svg");
+  top: 0;
+  background: url("../img/deco/landscape-hero.svg") center bottom / max(100%, 560px) auto no-repeat;
 }
-@media (max-width: 767px) {
-  .hero::after { height: clamp(96px, 26vw, 150px); }
-}
+/* the text stands centred (client's request): the company name, €CONOMY over €COLOGY at the
+   same width, the green line below */
 .hero-inner {
   position: relative;
   min-height: clamp(440px, 74vh, 780px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
+  text-align: center;
   padding-top: clamp(56px, 10vh, 120px);
   padding-bottom: clamp(48px, 8vh, 96px);
 }
@@ -579,11 +581,12 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 .hero-name {
   display: block;
   max-width: 46ch;
+  margin-inline: auto;
   font-size: clamp(14px, 1.6vw, 19px);
   font-weight: 500;
   line-height: 1.45;
   letter-spacing: .04em;
-  color: var(--muted);
+  color: var(--text);   /* not muted: the globe's lines run behind it */
 }
 .hero-slogan {
   display: block;
@@ -594,12 +597,21 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   line-height: .98;
   letter-spacing: -.02em;
   color: var(--ink);
-  text-wrap: balance;
 }
+/* one word per line. In Jost 600 €CONOMY is 0.41em wider than €COLOGY: tighten the one and open
+   the other by the same amount over their six gaps, so both lines start and end flush. The space
+   after the last letter is taken back, so the letters themselves are centred. */
+.hero-word {
+  display: block;
+  letter-spacing: var(--track);
+  margin-right: calc(-1 * var(--track));
+}
+.hero-word--economy { --track: -.054em; }
+.hero-word--ecology { --track: .014em; }
 .eu { color: var(--signal); }
 .hero-trace {
   display: block;
-  width: 100%;
+  width: min(100%, 1000px);   /* centred under the slogan; the line draws in over 1000px at most */
   height: 28px;
   margin-top: clamp(28px, 4vw, 44px);
   overflow: visible;
