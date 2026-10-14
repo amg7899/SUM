@@ -423,7 +423,9 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   display: flex;
   overflow-y: auto;
   padding: calc(var(--header-h) + 32px) var(--gutter) 48px;
-  background: linear-gradient(180deg, var(--sky) 0%, var(--haze) 45%, #e4efd7 100%);
+  background:
+    url("../img/deco/landscape.svg") right bottom / auto clamp(150px, 28vw, 380px) no-repeat,
+    linear-gradient(180deg, var(--sky) 0%, var(--haze) 45%, #e4efd7 100%);
   visibility: visible;
   animation: menu-in .22s ease-out;
 }
@@ -506,20 +508,45 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   .page-head::before { background-size: 50% 100%; }
 }
 
+/* The transparent landscape (assets/img/deco, drawn by tools/landscape.py): misty hills in layers
+   of translucent white, a wind farm and a power line. White only, so it lightens the light behind
+   the text and never darkens it. Anchored bottom right at the height set per place; the drawing
+   continues far to the left, so it covers any width. Also in the menu and, mirrored, the footer. */
+.hero::after,
+.page-head::after,
+.site-footer::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url("../img/deco/landscape.svg") right bottom / auto 100% no-repeat;
+  pointer-events: none;
+}
+@media (forced-colors: active) {
+  .hero::after,
+  .page-head::after,
+  .site-footer::before { display: none; }
+  .nav-open .main-nav { background-image: none; }
+}
+
 /* ---------- Home: hero ---------- */
 
 .hero {
+  isolation: isolate;   /* layers, back to front: column lines, globe, landscape, then the text */
   background:
     radial-gradient(1100px 640px at 80% 4%, rgba(255, 255, 255, .95), rgba(255, 255, 255, 0) 62%),
     linear-gradient(180deg, var(--sky) 0%, #edf3ee 46%, #e3efd5 76%, var(--meadow) 100%);
 }
 .hero::before {
+  z-index: -3;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent);
           mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent);
 }
 .hero-globe {
   /* the logo's globe, drawn large and faint */
   position: absolute;
+  z-index: -2;
   top: 50%;
   right: -12%;
   width: min(1100px, 95vw);
@@ -528,6 +555,16 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   color: var(--sprout);
   opacity: .3;
   pointer-events: none;
+}
+/* the wind farm stands in front of the lower globe, right of the slogan (no power line here: it
+   would run behind the slogan); on phones a small one under the green line */
+.hero::after {
+  z-index: -1;
+  height: clamp(150px, 27vw, 430px);
+  background-image: url("../img/deco/landscape-hero.svg");
+}
+@media (max-width: 767px) {
+  .hero::after { height: clamp(96px, 26vw, 150px); }
 }
 .hero-inner {
   position: relative;
@@ -685,6 +722,23 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   z-index: 1;
   padding-top: clamp(48px, 8vw, 104px);
   padding-bottom: clamp(36px, 5vw, 64px);
+}
+/* the landscape beside the title, fading out towards the text on the left; never taller than the
+   head, so short heads keep the turbines whole. Below 1024px the text takes the full width, so
+   the landscape gets a band of its own under the button. */
+.page-head::after {
+  height: min(26vw, 400px, 100% - 28px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .35) 40%, #000 70%);
+          mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .35) 40%, #000 70%);
+}
+@media (max-width: 1023px) {
+  .page-head { --land-h: clamp(130px, 20vw, 196px); }
+  .page-head .container { padding-bottom: calc(var(--land-h) + 12px); }
+  .page-head::after {
+    height: var(--land-h);
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
 }
 .page-head h1 {
   margin: 0;
@@ -1289,9 +1343,21 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 /* ---------- Footer: offices on every page, on the meadow ---------- */
 
 .site-footer {
+  --land-h: clamp(120px, 13vw, 190px);
+  position: relative;
+  isolation: isolate;
   border-top: 1px solid var(--line);
   background: linear-gradient(180deg, #edf3e8 0%, #e2eed6 60%, var(--meadow) 100%);
-  padding: clamp(44px, 6vw, 72px) 0 44px;
+  padding: clamp(44px, 6vw, 72px) 0 calc(var(--land-h) + 16px);
+}
+/* the landscape in a band of its own under the last line, mirrored: the wind farm on the left,
+   the power line running off to the right */
+.site-footer::before {
+  z-index: -1;
+  height: var(--land-h);
+  transform: scaleX(-1);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 55%);
+          mask-image: linear-gradient(90deg, transparent, #000 55%);
 }
 .footer-offices {
   display: grid;

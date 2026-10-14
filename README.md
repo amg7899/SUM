@@ -6,3 +6,4 @@ Static website (HTML + CSS, no build step), published with GitHub Pages.
 - `bg/` – the same pages in Bulgarian
 - `assets/` – styles, scripts, logo and images
 - `source/` – original content PDFs the site is built from
+- `tools/` – `landscape.py`, which draws the transparent landscape in `assets/img/deco/`
