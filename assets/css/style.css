@@ -1220,11 +1220,13 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 300 / 424;   /* one page shape for all, so the captions line up */
-  object-fit: contain;
   border: 1px solid var(--line);   /* the edge of the paper */
   border-radius: 4px;
   background: #fff;
+}
+.docs .doc-link img {
+  aspect-ratio: 300 / 424;   /* one page shape for all, so the captions line up */
+  object-fit: contain;
 }
 .page-body .doc-title {
   margin: 12px 4px 0;
@@ -1255,8 +1257,22 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   gap: clamp(40px, 4.5vw, 56px) clamp(24px, 3vw, 40px);
   align-items: start;
 }
-.award .doc-link { max-width: 340px; }
-.award .doc-link img { aspect-ratio: auto; }   /* each certificate in its own shape */
+.award .doc-link { max-width: 340px; }   /* each certificate in its own shape (from its width and height) */
+/* side by side, the cards take the height of the tallest certificate (the paper centred in it), so
+   the labels and the texts start on one line */
+@supports (grid-template-rows: subgrid) {
+  .award {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+  .award .doc-link {
+    align-self: stretch;
+    display: grid;
+    align-content: center;
+  }
+}
 .page-body .award .doc-title { margin-top: 16px; font-size: 18px; }
 .page-body .award p { margin: 10px 4px 0; }
 
