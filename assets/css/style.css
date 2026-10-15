@@ -49,7 +49,8 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: calc(var(--header-h) + 16px);
 }
-html.nav-lock { overflow: hidden; }
+html.nav-lock,
+html.lightbox-open { overflow: hidden; }
 
 body {
   margin: 0;
@@ -111,7 +112,7 @@ em { font-style: oblique 10deg; }
 
 .plate,
 .org-jv, .org-card, .bio-photo, .bio-text, .callout, .option,
-.doc-section--plate, .office, .figure, .partner-link picture, .sub-nav {
+.doc-section--plate, .office, .figure, .partner-link picture, .sub-nav, .doc-link {
   --edge: var(--line);
   --fill: var(--paper);
   border: 1px solid var(--edge);
@@ -1176,6 +1177,157 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   gap: 12px;
   margin: 4px 0 24px;
 }
+
+/* HISTORY: "* * *" before it as in the client's PDF, the text, then the documents as thumbnails
+   that open full size (gallery.js) */
+.asterism {
+  height: auto;
+  margin: clamp(48px, 6vw, 88px) 0 0;
+  border: 0;
+  overflow: visible;
+  text-align: center;
+  color: var(--sprout);
+}
+.asterism::after {
+  content: "*\2003*\2003*";
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+}
+.history { margin-top: clamp(28px, 3.5vw, 48px); }
+.docs {
+  list-style: none;
+  margin: clamp(28px, 3vw, 40px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: clamp(20px, 2.4vw, 28px) clamp(16px, 2vw, 24px);
+}
+@media (max-width: 479px) {
+  .docs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.doc-link {
+  --radius: 14px;
+  display: block;
+  padding: 10px;
+  cursor: zoom-in;
+  transition: transform .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s ease-out, border-color .2s ease-out;
+}
+.doc-link:hover,
+.doc-link:focus-visible { --edge: var(--line-strong); box-shadow: var(--lift); transform: translateY(-3px); }
+.doc-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 300 / 424;   /* one page shape for all, so the captions line up */
+  object-fit: contain;
+  border: 1px solid var(--line);   /* the edge of the paper */
+  border-radius: 4px;
+  background: #fff;
+}
+.page-body .doc-title {
+  margin: 12px 4px 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.doc-detail {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-text);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+/* a document full size: the page dims to ink, the document on its white paper, caption and
+   previous / next below */
+.lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(20, 38, 29, .95);
+  color: #fff;
+  overscroll-behavior: contain;
+}
+.lightbox[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  animation: lightbox-in .2s ease-out;
+}
+@keyframes lightbox-in { from { opacity: 0; } }
+.lightbox::backdrop { background: transparent; }
+.lightbox :focus-visible { outline-color: var(--lime); }
+.lightbox-top,
+.lightbox-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px var(--gutter);
+}
+.lightbox-count {
+  margin: 0;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, .78);
+}
+.lightbox-stage {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);   /* a fixed box, so the document can fit it */
+  place-items: center;
+  min-height: 0;
+  padding: 0 var(--gutter);
+}
+.lightbox-stage picture { display: contents; }
+.lightbox-img {
+  grid-area: 1 / 1;   /* the <source> next to it must not take the cell */
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .6);
+}
+.lightbox-caption {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.lightbox .doc-detail { font-size: 14px; color: rgba(255, 255, 255, .78); }
+.lightbox-btn {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .2s ease-out;
+}
+.lightbox-btn:hover { background: var(--lime); }
+.lightbox-btn svg { width: 22px; height: 22px; }
+.lightbox-btn[hidden] { display: none; }
 
 /* ---------- Contact ---------- */
 
