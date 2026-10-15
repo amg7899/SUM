@@ -1,11 +1,12 @@
-// Documents on About us (HISTORY): a thumbnail opens the document full size in a dialog, with
-// its caption, previous / next (also the arrow keys) and a close button (also Escape or a click
-// beside the document). Without JavaScript, or without <dialog>, the link opens the image itself.
+// Documents and awards on About us (HISTORY): a thumbnail opens the document full size in a
+// dialog, with its caption, previous / next through all of them (also the arrow keys) and a close
+// button (also Escape or a click beside the document). Without JavaScript, or without <dialog>,
+// the link opens the image itself.
 (function () {
-  var list = document.querySelector('.docs');
-  if (!list || typeof HTMLDialogElement !== 'function') return;
+  var list = document.querySelector('.docs');   // carries the button labels in the page's language
+  var links = Array.prototype.slice.call(document.querySelectorAll('.history .doc-link'));
+  if (!list || !links.length || typeof HTMLDialogElement !== 'function') return;
   var root = document.documentElement;
-  var links = Array.prototype.slice.call(list.querySelectorAll('.doc-link'));
   var icon = function (d) {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" focusable="false"><path d="' + d + '"/></svg>';
   };
