@@ -111,8 +111,8 @@ em { font-style: oblique 10deg; }
 /* ---------- Cards: one soft shape for every panel ---------- */
 
 .plate,
-.org-jv, .org-card, .bio-photo, .bio-text, .callout, .option,
-.doc-section--plate, .office, .figure, .partner-link picture, .sub-nav, .doc-link {
+.org-jv, .org-card, .bio-photo, .bio-text, .callout,
+.office, .figure, .partner-link picture, .sub-nav, .doc-link {
   --edge: var(--line);
   --fill: var(--paper);
   border: 1px solid var(--edge);
@@ -632,13 +632,25 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 /* ---------- Home: section tiles ---------- */
 
 .tiles-section { padding: clamp(48px, 7vw, 96px) 0 clamp(64px, 9vw, 120px); }
+/* three tiles: one under the other on phones, two with the third centred under them on tablets
+   and small laptops, three in a row from 1240px */
 .tiles {
+  --tiles-gap: clamp(18px, 2.4vw, 28px);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(18px, 2.4vw, 28px);
+  gap: var(--tiles-gap);
 }
 @media (min-width: 860px) {
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles > .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - var(--tiles-gap)) / 2);
+  }
+}
+@media (min-width: 1240px) {
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tiles > .tile:last-child:nth-child(odd) { grid-column: auto; width: auto; }
 }
 
 .tile {
@@ -787,7 +799,6 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   line-height: 1.55;
   color: var(--ink);
 }
-.page-lead--strong { font-weight: 600; }
 
 .page-body { padding: clamp(40px, 6vw, 80px) 0 clamp(64px, 9vw, 120px); }
 /* zero-specificity defaults, so component rules below always win */
@@ -852,7 +863,7 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   border-radius: 50%;
   background: var(--sprout);
 }
-.figure + .doc-section, .intro + .figure { margin-top: clamp(40px, 5vw, 64px); }
+.figure + .doc-section { margin-top: clamp(40px, 5vw, 64px); }
 .doc-section > h2 {
   margin: 0;
   font-size: clamp(22px, 2.2vw, 28px);
@@ -914,29 +925,6 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 }
 .callout p { margin: 0; }
 .callout p + p { margin-top: 6px; }
-
-.intro { max-width: 70ch; }
-
-/* parallel options shown side by side */
-.options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 16px;
-}
-.option { --radius: 16px; padding: 22px 24px 24px; }
-.option h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
-}
-
-/* a section addressed to one audience, set on a tinted card */
-.doc-section--plate {
-  --radius: 22px;
-  --edge: #d3e6b0;
-  --fill: #f4f9ea;
-  padding: clamp(24px, 3vw, 40px);
-}
-.doc-section--plate::before { content: none; }   /* the tinted card marks the section; no node */
 
 /* product pages: the collage stays in view beside the text on wide screens */
 .product {
