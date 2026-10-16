@@ -1638,6 +1638,78 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 .footer-office .btn,
 .footer-office .btn:hover { color: var(--ink); }   /* not the footer link colours */
 .footer-copy { margin: 0; font-size: 14px; color: var(--muted); }
+
+/* BULFIRE: a small card with the client's sentence and the link to the BULFIRE site, under the
+   offices in every footer and at the end of About us */
+.footer-bulfire {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(20, 38, 29, .12);
+}
+.bulfire-link {
+  --radius: 16px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "logo body go";
+  align-items: center;
+  gap: 12px 20px;
+  max-width: 720px;
+  padding: 14px 14px 14px 20px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color .2s ease-out;
+}
+.bulfire-link--page { margin-top: clamp(40px, 5vw, 64px); }
+.bulfire-logo {   /* the client's logo, background made transparent, small; a hairline beside it */
+  grid-area: logo;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  border-right: 1px solid var(--line);
+}
+.bulfire-logo img { display: block; width: auto; height: 40px; }
+.bulfire-body {
+  grid-area: body;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bulfire-text { font-size: 14.5px; line-height: 1.5; }
+.bulfire-url {
+  align-self: flex-start;
+  font-weight: 500;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-color: var(--sprout);
+  text-underline-offset: 4px;
+  transition: color .2s ease-out;
+}
+.bulfire-go {   /* the round arrow chip, as on the tiles; diagonal: it opens another site */
+  grid-area: go;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--lime);
+  transition: background-color .2s ease-out, color .2s ease-out;
+}
+.bulfire-go svg { width: 18px; height: 18px; }
+.bulfire-link:hover, .bulfire-link:focus-visible { --edge: var(--line-strong); }
+.bulfire-link:hover .bulfire-url { color: var(--leaf); }
+.bulfire-link:hover .bulfire-go, .bulfire-link:focus-visible .bulfire-go { background: var(--ink); color: var(--lime); }
+@media (max-width: 560px) {   /* phones: the logo and the arrow on top, the text under them */
+  .bulfire-link {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "logo go" "body body";
+    padding: 14px 14px 16px 18px;
+  }
+  .bulfire-logo { padding-right: 0; border-right: 0; }
+  .bulfire-logo img { height: 34px; }
+}
 .footer-inner {
   display: flex;
   flex-wrap: wrap;
