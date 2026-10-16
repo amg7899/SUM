@@ -190,3 +190,32 @@
   follow();
   new MutationObserver(follow).observe(root, { attributes: true, attributeFilter: ['lang'] });
 })();
+
+// The Electrical Conversion photo: from 520px wide its labels sit in the photo's empty corners
+// (CSS container query). If a label does not fit its corner, e.g. after a long translation, both
+// go back above the photo, so no label covers the picture. Re-checked like the row of links.
+(function () {
+  var collages = Array.prototype.slice.call(document.querySelectorAll('.collage'));
+  if (!collages.length) return;
+  function check() {
+    collages.forEach(function (c) {
+      c.classList.remove('collage--stacked');
+      var over = Array.prototype.some.call(c.querySelectorAll('.collage-label'), function (li) {
+        var chip = li.firstElementChild;
+        if (!chip || window.getComputedStyle(li).position !== 'absolute') return false;
+        return chip.offsetHeight > li.clientHeight + 1 || chip.scrollWidth > li.clientWidth + 1;
+      });
+      if (over) c.classList.add('collage--stacked');
+    });
+  }
+  check();
+  window.addEventListener('resize', check);
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(check);
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', check);
+  }
+  collages.forEach(function (c) {
+    new MutationObserver(check).observe(c.querySelector('.collage-labels'), { subtree: true, childList: true, characterData: true });
+  });
+  new MutationObserver(check).observe(document.documentElement, { attributes: true, attributeFilter: ['lang', 'class'] });
+})();
