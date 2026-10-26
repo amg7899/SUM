@@ -1066,7 +1066,7 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   .org-jv { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* the joint venture wired to its three companies; wires live on the list items, cards inside them */
+/* the joint venture wired to its two companies; wires live on the list items, cards inside them */
 .org-members {
   --drop: 30px;
   --gap: clamp(16px, 2vw, 24px);
@@ -1075,7 +1075,7 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   margin: 0;
   padding: calc(var(--drop) * 2) 0 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--gap);
 }
 .org-members::before,
@@ -1093,8 +1093,8 @@ html[lang|="bg"] .l10n-bg { display: inline; }
 }
 .org-members::after {    /* bus */
   top: var(--drop);
-  left: calc((100% - 2 * var(--gap)) / 6);
-  right: calc((100% - 2 * var(--gap)) / 6);
+  left: calc((100% - var(--gap)) / 4);     /* from the middle of the first card to the middle of the second */
+  right: calc((100% - var(--gap)) / 4);
   height: 2px;
 }
 .org-member { position: relative; display: flex; }
@@ -1451,7 +1451,6 @@ html[lang|="bg"] .l10n-bg { display: inline; }
   border-top: 1px solid var(--line);
 }
 .line-label { color: var(--muted); }
-.tbd { color: var(--signal); }
 
 
 /* ---------- Calls to action ---------- */
